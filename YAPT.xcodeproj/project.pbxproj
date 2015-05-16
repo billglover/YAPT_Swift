@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */; };
 		A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */; };
-		A9C8F1E01AFEA223001FD125 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C8F1DF1AFEA223001FD125 /* ViewController.swift */; };
 		A9C8F1E31AFEA223001FD125 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E11AFEA223001FD125 /* Main.storyboard */; };
 		A9C8F1E51AFEA223001FD125 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E41AFEA223001FD125 /* Images.xcassets */; };
 		A9C8F1E81AFEA223001FD125 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E61AFEA223001FD125 /* LaunchScreen.xib */; };
@@ -26,10 +26,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTMainViewController.swift; sourceTree = "<group>"; };
 		A9C8F1D81AFEA223001FD125 /* YAPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8F1DC1AFEA223001FD125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A9C8F1DF1AFEA223001FD125 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A9C8F1E21AFEA223001FD125 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A9C8F1E41AFEA223001FD125 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A9C8F1E71AFEA223001FD125 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -77,11 +77,8 @@
 		A9C8F1DA1AFEA223001FD125 /* YAPT */ = {
 			isa = PBXGroup;
 			children = (
-				A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */,
-				A9C8F1DF1AFEA223001FD125 /* ViewController.swift */,
+				A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */,
 				A9C8F1E11AFEA223001FD125 /* Main.storyboard */,
-				A9C8F1E41AFEA223001FD125 /* Images.xcassets */,
-				A9C8F1E61AFEA223001FD125 /* LaunchScreen.xib */,
 				A9C8F1DB1AFEA223001FD125 /* Supporting Files */,
 			);
 			path = YAPT;
@@ -90,6 +87,9 @@
 		A9C8F1DB1AFEA223001FD125 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */,
+				A9C8F1E61AFEA223001FD125 /* LaunchScreen.xib */,
+				A9C8F1E41AFEA223001FD125 /* Images.xcassets */,
 				A9C8F1DC1AFEA223001FD125 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9C8F1E01AFEA223001FD125 /* ViewController.swift in Sources */,
+				A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */,
 				A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +409,7 @@
 				A9C8F1F91AFEA223001FD125 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A9C8F1FA1AFEA223001FD125 /* Build configuration list for PBXNativeTarget "YAPTTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +418,7 @@
 				A9C8F1FC1AFEA223001FD125 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
