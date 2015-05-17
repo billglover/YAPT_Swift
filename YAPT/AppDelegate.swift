@@ -23,9 +23,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // register our Notification settings
         registerNotificationTypes()
         
+        // check to see if application is launched from notification
+        if let options = launchOptions {
+            if let notification = options[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
+                if let userInfo = notification.userInfo {
+                    if let currentIntervalIndex: Int = userInfo["index"] as? Int {
+                        println("didFinishLaunchingWithOptions: \(currentIntervalIndex)")
+                    }
+                }
+            }
+        }
+        
         return true
+    }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        if let userInfo = notification.userInfo {
+            if let currentIntervalIndex: Int = userInfo["index"] as? Int {
+                println("didReceiveLocalNotification: \(currentIntervalIndex)")
+            }
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

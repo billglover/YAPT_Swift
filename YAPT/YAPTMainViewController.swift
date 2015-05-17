@@ -172,10 +172,44 @@ class YAPTMainViewController: UIViewController {
     
     func applicationDidEnterBackground() {
         println("notification recieved for: applicationDidEnterBackground")
+        
+        // clear outstanding notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // set local notification for active timer
+        let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
+        remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
+        
+        var localNotification = UILocalNotification()
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.alertBody = "Pomodoro Complete"
+        localNotification.alertTitle = "YAPT"
+        localNotification.soundName = UILocalNotificationDefaultSoundName
+
+        
+        let userInfo:[String:Int] = ["index": currentIntervalIndex]
+        localNotification.userInfo = userInfo
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        
+        // save timer state
+        
+        // invalidate active timer
+        timer.invalidate()
     }
     
     func applicationWillEnterForeground() {
         println("notification recieved for: applicationWillEnterForeground")
+        
+        // clear outstanding notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // retrieve any saved timers
+        
+        
+        // re-start active timer
+        
     }
     
     func applicationDidBecomeActive() {
