@@ -27,7 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // register our Notification settings
         registerNotificationTypes()
         
-        // check to see if application is launched from notification
+        // decision to clear all notifications if the user force quits the application
+        /*
         if let options = launchOptions {
             if let notification = options[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
                 if let userInfo = notification.userInfo {
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        */
         
         return true
     }

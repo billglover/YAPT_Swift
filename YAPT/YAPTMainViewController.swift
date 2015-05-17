@@ -38,14 +38,7 @@ class YAPTMainViewController: UIViewController {
             timerLabel.text = labelString
         }
     }
-    private var currentIntervalIndex = 0 {
-        didSet {
-            
-            // as we've changed the interval we need to invalidate the timer and update remaining inverval
-            timer.invalidate()
-            remainingIntervalDuration = schedule[currentIntervalIndex].duration
-        }
-    }
+    private var currentIntervalIndex = 0
 
     // MARK: - Timer Methods
     private func startTimer() {
@@ -108,6 +101,7 @@ class YAPTMainViewController: UIViewController {
     
     // MARK: - Update Display
     private func updateDisplay() {
+        remainingIntervalDuration = schedule[currentIntervalIndex].duration
         updateBackground()
         updateTimerButton()
     }
@@ -148,6 +142,8 @@ class YAPTMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        println("viewDidLoad")
+        
         // handle notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillResignActive), name: NotificationMessages.applicationWillResignActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidEnterBackground), name: NotificationMessages.applicationDidEnterBackground, object: nil)
@@ -177,26 +173,31 @@ class YAPTMainViewController: UIViewController {
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         // set local notification for active timer
-        let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
-        remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
-        
-        var localNotification = UILocalNotification()
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.alertBody = "Pomodoro Complete"
-        localNotification.alertTitle = "YAPT"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
+        if timer.valid {
+            let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
+            remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
+            
+            var localNotification = UILocalNotification()
+            localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            localNotification.alertBody = "Pomodoro Complete"
+            localNotification.alertTitle = "YAPT"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
 
-        
-        let userInfo:[String:Int] = ["index": currentIntervalIndex]
-        localNotification.userInfo = userInfo
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-        
-        // save timer state
-        
-        // invalidate active timer
-        timer.invalidate()
+            
+            let userInfo:[String:Int] = ["index": currentIntervalIndex]
+            localNotification.userInfo = userInfo
+            
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+            
+            // save timer state
+            var userDefaults = NSUserDefaults.standardUserDefaults()
+            userDefaults.setInteger(currentIntervalIndex, forKey: "currentIntervalIndex")
+            userDefaults.setObject(currentIntervalStartTime, forKey: "currentIntervalStartTime")
+            
+            // invalidate active timer
+            timer.invalidate()
+        }
     }
     
     func applicationWillEnterForeground() {
@@ -206,9 +207,20 @@ class YAPTMainViewController: UIViewController {
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         // retrieve any saved timers
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        if let startTime: NSDate = userDefaults.objectForKey("currentIntervalStartTime") as? NSDate {
+
+            // re-establish timer details
+            currentIntervalStartTime = startTime
+            currentIntervalIndex = userDefaults.integerForKey("currentIntervalIndex")
+            
+            // re-start active timer
+            timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+        }
         
-        
-        // re-start active timer
+        // clear all saved timers
+        userDefaults.removeObjectForKey("currentIntervalStartTime")
+        userDefaults.removeObjectForKey("currentIntervalIndex")
         
     }
     
@@ -218,6 +230,17 @@ class YAPTMainViewController: UIViewController {
     
     func applicationWillTerminate() {
         println("notification recieved for: applicationWillTerminate")
+        
+        // clear all active timers
+        timer.invalidate()
+        
+        // clear all notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // clear all saved timers (just to be sure)
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.removeObjectForKey("currentIntervalStartTime")
+        userDefaults.removeObjectForKey("currentIntervalIndex")
     }
 
 }
