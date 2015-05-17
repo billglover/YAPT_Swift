@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var abortAction = UIMutableUserNotificationAction()
         abortAction.identifier = NotificationActions.abortActionIdentifier
-        abortAction.title = "Abandon"
+        abortAction.title = "Dismiss"
         abortAction.activationMode = UIUserNotificationActivationMode.Background
         abortAction.destructive = true
         abortAction.authenticationRequired = false

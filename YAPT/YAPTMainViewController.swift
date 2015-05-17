@@ -184,11 +184,11 @@ class YAPTMainViewController: UIViewController {
             
             switch schedule[currentIntervalIndex].type {
             case .Break:
-                localNotification.alertBody = "Break Over"
+                localNotification.alertTitle = "Break Over"
             case .Work:
-                localNotification.alertBody = "Time's Up"
+                localNotification.alertTitle = "Time's Up"
             }
-            localNotification.alertTitle = "YAPT"
+            localNotification.alertBody = "Interval \(currentIntervalIndex + 1) of \(schedule.count)."
             localNotification.category = NotificationCategories.intervalNotificationCategoryIdentifier
             localNotification.soundName = UILocalNotificationDefaultSoundName
             
