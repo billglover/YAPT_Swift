@@ -14,6 +14,16 @@ struct NotificationMessages {
     static let applicationWillEnterForeground = "applicationWillEnterForeground"
     static let applicationDidEnterBackground = "applicationDidEnterBackground"
     static let applicationWillResignActive = "applicationWillResignActive"
+    static let notificationActionNextInterval = "notificationActionNextInterval"
+}
+
+struct NotificationActions {
+    static let nextActionIdentifier = "nextActionIdentifier"
+    static let abortActionIdentifier = "abortActionIdentifier"
+}
+
+struct NotificationCategories {
+    static let intervalNotificationCategoryIdentifier = "intervalNotificationCategoryIdentifier"
 }
 
 @UIApplicationMain
@@ -82,10 +92,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.applicationWillTerminate, object: self)
     }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        if let actionIdentifier = identifier {
+            switch actionIdentifier {
+            case NotificationActions.nextActionIdentifier:
+                if let userInfo = notification.userInfo {
+                    if let currentIntervalIndex: Int = userInfo["index"] as? Int {
+                        println("didReceiveLocalNotification: \(currentIntervalIndex) and triggered the next interval")
+                        NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.notificationActionNextInterval, object: self)
+                    }
+                }
+            case NotificationActions.abortActionIdentifier:
+                if let userInfo = notification.userInfo {
+                    if let currentIntervalIndex: Int = userInfo["index"] as? Int {
+                        println("didReceiveLocalNotification: \(currentIntervalIndex) and abandoned the run")
+                    }
+                }
+            default:
+                println("unkown notificationa action received")
+            }
+        }
+        completionHandler()
+    }
 
     func registerNotificationTypes() {
+        var nextAction = UIMutableUserNotificationAction()
+        nextAction.identifier = NotificationActions.nextActionIdentifier
+        nextAction.title = "Next Interval"
+        nextAction.activationMode = UIUserNotificationActivationMode.Background
+        nextAction.destructive = false
+        nextAction.authenticationRequired = false
+        
+        var abortAction = UIMutableUserNotificationAction()
+        abortAction.identifier = NotificationActions.abortActionIdentifier
+        abortAction.title = "Abandon"
+        abortAction.activationMode = UIUserNotificationActivationMode.Background
+        abortAction.destructive = true
+        abortAction.authenticationRequired = false
+        
+        var intervalNotificationCategory = UIMutableUserNotificationCategory()
+        intervalNotificationCategory.identifier = NotificationCategories.intervalNotificationCategoryIdentifier
+        intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
+        
+        
         let types = UIUserNotificationType.Alert | UIUserNotificationType.Sound
-        let settings = UIUserNotificationSettings(forTypes: types, categories: nil)
+        let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory])
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
 

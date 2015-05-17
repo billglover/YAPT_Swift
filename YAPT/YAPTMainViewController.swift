@@ -150,6 +150,7 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillEnterForeground), name: NotificationMessages.applicationWillEnterForeground, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
         
         // load a test schedule
         schedule.append((type: IntervalType.Work, duration:10.0))
@@ -180,10 +181,16 @@ class YAPTMainViewController: UIViewController {
             var localNotification = UILocalNotification()
             localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
             localNotification.timeZone = NSTimeZone.defaultTimeZone()
-            localNotification.alertBody = "Pomodoro Complete"
+            
+            switch schedule[currentIntervalIndex].type {
+            case .Break:
+                localNotification.alertBody = "Break Over"
+            case .Work:
+                localNotification.alertBody = "Time's Up"
+            }
             localNotification.alertTitle = "YAPT"
+            localNotification.category = NotificationCategories.intervalNotificationCategoryIdentifier
             localNotification.soundName = UILocalNotificationDefaultSoundName
-
             
             let userInfo:[String:Int] = ["index": currentIntervalIndex]
             localNotification.userInfo = userInfo
@@ -243,4 +250,11 @@ class YAPTMainViewController: UIViewController {
         userDefaults.removeObjectForKey("currentIntervalIndex")
     }
 
+    func notificationActionNextInterval() {
+        println("notification recieved for: notificationActionNextInterval")
+        completeTimer()
+        startTimer()
+        applicationDidEnterBackground()
+    }
+    
 }
