@@ -38,14 +38,7 @@ class YAPTMainViewController: UIViewController {
             timerLabel.text = labelString
         }
     }
-    private var currentIntervalIndex = 0 {
-        didSet {
-            
-            // as we've changed the interval we need to invalidate the timer and update remaining inverval
-            timer.invalidate()
-            remainingIntervalDuration = schedule[currentIntervalIndex].duration
-        }
-    }
+    private var currentIntervalIndex = 0
 
     // MARK: - Timer Methods
     private func startTimer() {
@@ -108,6 +101,7 @@ class YAPTMainViewController: UIViewController {
     
     // MARK: - Update Display
     private func updateDisplay() {
+        remainingIntervalDuration = schedule[currentIntervalIndex].duration
         updateBackground()
         updateTimerButton()
     }
@@ -148,14 +142,133 @@ class YAPTMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        println("viewDidLoad")
+        
+        // handle notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillResignActive), name: NotificationMessages.applicationWillResignActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidEnterBackground), name: NotificationMessages.applicationDidEnterBackground, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillEnterForeground), name: NotificationMessages.applicationWillEnterForeground, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
+        
         // load a test schedule
-        schedule.append((type: IntervalType.Work, duration:10.0))
+        schedule.append((type: IntervalType.Work, duration:1500.0))
+        schedule.append((type: IntervalType.Break, duration:300.0))
+        schedule.append((type: IntervalType.Work, duration:1500.0))
+        schedule.append((type: IntervalType.Break, duration:300.0))
+        schedule.append((type: IntervalType.Work, duration:1500.0))
+        schedule.append((type: IntervalType.Break, duration:300.0))
+        schedule.append((type: IntervalType.Work, duration:1500.0))
+        schedule.append((type: IntervalType.Break, duration:900.0))
+
+        /*schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
-        schedule.append((type: IntervalType.Work, duration:10.0))
-        schedule.append((type: IntervalType.Break, duration:15.0))
+        schedule.append((type: IntervalType.Work, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Work, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Work, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))*/
+        
         currentIntervalIndex = 0
         
         updateDisplay()
     }
+    
+    // MARK: - Notifications
+    func applicationWillResignActive() {
+        println("notification recieved for: applicationWillResignActive")
+    }
+    
+    func applicationDidEnterBackground() {
+        println("notification recieved for: applicationDidEnterBackground")
+        
+        // clear outstanding notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // set local notification for active timer
+        if timer.valid {
+            let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
+            remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
+            
+            var localNotification = UILocalNotification()
+            localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            
+            switch schedule[currentIntervalIndex].type {
+            case .Break:
+                localNotification.alertTitle = "Break Over"
+            case .Work:
+                localNotification.alertTitle = "Time's Up"
+            }
+            localNotification.alertBody = "Interval \(currentIntervalIndex + 1) of \(schedule.count)."
+            localNotification.category = NotificationCategories.intervalNotificationCategoryIdentifier
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            
+            let userInfo:[String:Int] = ["index": currentIntervalIndex]
+            localNotification.userInfo = userInfo
+            
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+            
+            // save timer state
+            var userDefaults = NSUserDefaults.standardUserDefaults()
+            userDefaults.setInteger(currentIntervalIndex, forKey: "currentIntervalIndex")
+            userDefaults.setObject(currentIntervalStartTime, forKey: "currentIntervalStartTime")
+            
+            // invalidate active timer
+            timer.invalidate()
+        }
+    }
+    
+    func applicationWillEnterForeground() {
+        println("notification recieved for: applicationWillEnterForeground")
+        
+        // clear outstanding notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // retrieve any saved timers
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        if let startTime: NSDate = userDefaults.objectForKey("currentIntervalStartTime") as? NSDate {
 
+            // re-establish timer details
+            currentIntervalStartTime = startTime
+            currentIntervalIndex = userDefaults.integerForKey("currentIntervalIndex")
+            
+            // re-start active timer
+            timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+        }
+        
+        // clear all saved timers
+        userDefaults.removeObjectForKey("currentIntervalStartTime")
+        userDefaults.removeObjectForKey("currentIntervalIndex")
+        
+    }
+    
+    func applicationDidBecomeActive() {
+        println("notification recieved for: applicationDidBecomeActive")
+    }
+    
+    func applicationWillTerminate() {
+        println("notification recieved for: applicationWillTerminate")
+        
+        // clear all active timers
+        timer.invalidate()
+        
+        // clear all notifications
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // clear all saved timers (just to be sure)
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.removeObjectForKey("currentIntervalStartTime")
+        userDefaults.removeObjectForKey("currentIntervalIndex")
+    }
+
+    func notificationActionNextInterval() {
+        println("notification recieved for: notificationActionNextInterval")
+        completeTimer()
+        startTimer()
+        applicationDidEnterBackground()
+    }
+    
 }
