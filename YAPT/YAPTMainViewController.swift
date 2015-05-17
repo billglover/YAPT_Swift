@@ -148,6 +148,13 @@ class YAPTMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // handle notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillResignActive), name: NotificationMessages.applicationWillResignActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidEnterBackground), name: NotificationMessages.applicationDidEnterBackground, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillEnterForeground), name: NotificationMessages.applicationWillEnterForeground, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
+        
         // load a test schedule
         schedule.append((type: IntervalType.Work, duration:10.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
@@ -156,6 +163,27 @@ class YAPTMainViewController: UIViewController {
         currentIntervalIndex = 0
         
         updateDisplay()
+    }
+    
+    // MARK: - Notifications
+    func applicationWillResignActive() {
+        println("notification recieved for: applicationWillResignActive")
+    }
+    
+    func applicationDidEnterBackground() {
+        println("notification recieved for: applicationDidEnterBackground")
+    }
+    
+    func applicationWillEnterForeground() {
+        println("notification recieved for: applicationWillEnterForeground")
+    }
+    
+    func applicationDidBecomeActive() {
+        println("notification recieved for: applicationDidBecomeActive")
+    }
+    
+    func applicationWillTerminate() {
+        println("notification recieved for: applicationWillTerminate")
     }
 
 }
