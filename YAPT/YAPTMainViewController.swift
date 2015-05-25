@@ -8,6 +8,23 @@
 
 import UIKit
 
+extension NSTimeInterval {
+    var inHours: Double { return self.inMinutes/60 }
+    var inMinutes: Double { return self/60 }
+    var inSeconds: Double { return self }
+    var inHoursMinutesSeconds: (hours: Double, minutes: Double, seconds: Double) {
+        let hours: Double = floor(round(self) / 60 / 60)
+        let minutes: Double = trunc((round(self) - (hours * 60 * 60)) / 60)
+        let seconds: Double = trunc(round(self) - minutes * 60)
+        return (hours: hours, minutes: minutes, seconds: seconds)
+    }
+    var inMinutesSeconds: (minutes: Double, seconds: Double) {
+        let minutes: Double = floor(round(self) / 60)
+        let seconds: Double = trunc(round(self) - minutes * 60)
+        return (minutes: minutes, seconds: seconds)
+    }
+}
+
 class YAPTMainViewController: UIViewController {
 
     // MARK: - Types
@@ -18,55 +35,39 @@ class YAPTMainViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timerButton: UIButton!
     @IBOutlet var timerView: UIView!
-    @IBInspectable var breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
-    @IBInspectable var workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
+    var breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
+    var workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
     
     // MARK: - Properties
     private var timer = NSTimer()
     private var schedule = [Interval]()
-    private let timerInterval: NSTimeInterval = 1.0
+    private let timerTickInterval: NSTimeInterval = 1.0
     private var currentIntervalStartTime = NSDate()
+    private var currentIntervalIndex = 0
     private var remainingIntervalDuration: NSTimeInterval = 0.0 {
         didSet {
-
-            // convert duration into minutes:seconds
-            let minutes: Double = floor(round(remainingIntervalDuration) / 60)
-            let seconds: Double = trunc(round(remainingIntervalDuration) - minutes * 60)
-            
-            // display as mm:ss
-            let labelString = String(format: "%02.0f:%02.0f", (minutes), (seconds))
-            timerLabel.text = labelString
+            timerLabel.text = String(format: "%02.0f:%02.0f", remainingIntervalDuration.inMinutesSeconds.minutes, remainingIntervalDuration.inMinutesSeconds.seconds)
         }
     }
-    private var currentIntervalIndex = 0
 
     // MARK: - Timer Methods
     private func startTimer() {
-        println("startTimer() called")
-        
-        // set the remaining duration
-        remainingIntervalDuration = schedule[currentIntervalIndex].duration
-        
-        // capture the start time
+        let currentInterval = schedule[currentIntervalIndex]
+        remainingIntervalDuration = currentInterval.duration
         currentIntervalStartTime = NSDate()
-        println("intervalIndex \(currentIntervalIndex) started at \(currentIntervalStartTime)")
+        timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerTickEvent"), userInfo: nil, repeats: true)
         
-        // set up the timer
-        timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+        println("intervalIndex \(currentIntervalIndex) started at \(currentIntervalStartTime)")
     }
 
     private func interruptTimer() {
-        println("interruptTimer() called")
-        
-        // stop the timer
         timer.invalidate()
+        println("intervalIndex \(currentIntervalIndex) interrupted at \(NSDate())")
     }
     
     private func completeTimer() {
-        println("completeTimer() called")
-        
-        // stop the timer
         timer.invalidate()
+        println("intervalIndex \(currentIntervalIndex) completed at \(NSDate())")
         
         // print some diagnostic stats
         println("target duration: \(schedule[currentIntervalIndex].duration)")
@@ -83,17 +84,13 @@ class YAPTMainViewController: UIViewController {
     }
     
     private func resetTimer() {
-        println("resetTimer() called")
+        println("resetTimer() called - Not Implemented")
     }
     
-    func timerFired() {
-        println("timerFired() called at \(NSDate())")
-        
-        // calculate the remaining duration for this interval
+    func timerTickEvent() {
         let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
         remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
         
-        // if we are out of time, complete the timer
         if round(remainingIntervalDuration) <= 0.0 {
             completeTimer()
         }
@@ -101,12 +98,13 @@ class YAPTMainViewController: UIViewController {
     
     // MARK: - Update Display
     private func updateDisplay() {
-        remainingIntervalDuration = schedule[currentIntervalIndex].duration
-        updateBackground()
-        updateTimerButton()
+        let currentInterval = schedule[currentIntervalIndex]
+        remainingIntervalDuration = currentInterval.duration
+        updateBackgroundForInterval(currentInterval)
+        toggleTimerButtonForTimer(timer)
     }
     
-    private func updateTimerButton() {
+    private func toggleTimerButtonForTimer(timer: NSTimer) {
         if timer.valid {
             timerButton.setTitle("Stop", forState: UIControlState.Normal)
         } else {
@@ -114,8 +112,8 @@ class YAPTMainViewController: UIViewController {
         }
     }
     
-    private func updateBackground() {
-        switch schedule[currentIntervalIndex].type {
+    private func updateBackgroundForInterval(interval: Interval) {
+        switch interval.type {
         case .Work:
             timerView.backgroundColor = workColor
         case .Break:
@@ -135,7 +133,7 @@ class YAPTMainViewController: UIViewController {
                 break
             }
         }
-        updateTimerButton()
+        toggleTimerButtonForTimer(timer)
     }
     
     // MARK: - View Controller Lifecycle
@@ -236,7 +234,7 @@ class YAPTMainViewController: UIViewController {
             currentIntervalIndex = userDefaults.integerForKey("currentIntervalIndex")
             
             // re-start active timer
-            timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
         }
         
         // clear all saved timers
