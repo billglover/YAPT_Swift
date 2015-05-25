@@ -24,7 +24,7 @@ class YAPTMainViewController: UIViewController {
     // MARK: - Properties
     private var timer = NSTimer()
     private var schedule = [Interval]()
-    private let timerInterval: NSTimeInterval = 1.0
+    private let timerTickInterval: NSTimeInterval = 1.0
     private var currentIntervalStartTime = NSDate()
     private var remainingIntervalDuration: NSTimeInterval = 0.0 {
         didSet {
@@ -52,7 +52,7 @@ class YAPTMainViewController: UIViewController {
         println("intervalIndex \(currentIntervalIndex) started at \(currentIntervalStartTime)")
         
         // set up the timer
-        timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
     }
 
     private func interruptTimer() {
@@ -236,7 +236,7 @@ class YAPTMainViewController: UIViewController {
             currentIntervalIndex = userDefaults.integerForKey("currentIntervalIndex")
             
             // re-start active timer
-            timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
         }
         
         // clear all saved timers
