@@ -28,7 +28,7 @@ extension NSTimeInterval {
 class YAPTMainViewController: UIViewController {
 
     // MARK: - Types
-    private enum IntervalType { case Work, Break }
+    private enum IntervalType: Int { case Work, Break }
     private typealias Interval = (type:IntervalType, duration:Double)
     
     // MARK: - UI Properties
@@ -283,7 +283,22 @@ class YAPTMainViewController: UIViewController {
                     break
                 }
                 
-                watchKitExtensionRequestPackage.replyBlock(["reply": action])
+                var replyInfo: [String : AnyObject] = [:]
+                replyInfo["timerState"] = timer.valid
+                replyInfo["currentInterval"] = currentIntervalIndex
+                replyInfo["totalIntervals"] = schedule.count
+                replyInfo["currentIntervalRemaining"] = remainingIntervalDuration
+                
+                switch schedule[currentIntervalIndex].type {
+                case .Break:
+                    replyInfo["currentIntervalType"] = "Break"
+                    replyInfo["currentIntervalColor"] = breakColor
+                case .Work:
+                    replyInfo["currentIntervalType"] = "Work"
+                    replyInfo["currentIntervalColor"] = workColor
+                }
+                
+                watchKitExtensionRequestPackage.replyBlock(replyInfo)
             }
             
         }
