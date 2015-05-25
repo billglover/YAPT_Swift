@@ -8,6 +8,23 @@
 
 import UIKit
 
+extension NSTimeInterval {
+    var inHours: Double { return self.inMinutes/60 }
+    var inMinutes: Double { return self/60 }
+    var inSeconds: Double { return self }
+    var inHoursMinutesSeconds: (hours: Double, minutes: Double, seconds: Double) {
+        let hours: Double = floor(round(self) / 60 / 60)
+        let minutes: Double = trunc((round(self) - (hours * 60 * 60)) / 60)
+        let seconds: Double = trunc(round(self) - minutes * 60)
+        return (hours: hours, minutes: minutes, seconds: seconds)
+    }
+    var inMinutesSeconds: (minutes: Double, seconds: Double) {
+        let minutes: Double = floor(round(self) / 60)
+        let seconds: Double = trunc(round(self) - minutes * 60)
+        return (minutes: minutes, seconds: seconds)
+    }
+}
+
 class YAPTMainViewController: UIViewController {
 
     // MARK: - Types
@@ -26,19 +43,12 @@ class YAPTMainViewController: UIViewController {
     private var schedule = [Interval]()
     private let timerTickInterval: NSTimeInterval = 1.0
     private var currentIntervalStartTime = NSDate()
+    private var currentIntervalIndex = 0
     private var remainingIntervalDuration: NSTimeInterval = 0.0 {
         didSet {
-
-            // convert duration into minutes:seconds
-            let minutes: Double = floor(round(remainingIntervalDuration) / 60)
-            let seconds: Double = trunc(round(remainingIntervalDuration) - minutes * 60)
-            
-            // display as mm:ss
-            let labelString = String(format: "%02.0f:%02.0f", (minutes), (seconds))
-            timerLabel.text = labelString
+            timerLabel.text = String(format: "%02.0f:%02.0f", remainingIntervalDuration.inMinutesSeconds.minutes, remainingIntervalDuration.inMinutesSeconds.seconds)
         }
     }
-    private var currentIntervalIndex = 0
 
     // MARK: - Timer Methods
     private func startTimer() {
