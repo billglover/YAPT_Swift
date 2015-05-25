@@ -15,6 +15,7 @@ struct NotificationMessages {
     static let applicationDidEnterBackground = "applicationDidEnterBackground"
     static let applicationWillResignActive = "applicationWillResignActive"
     static let notificationActionNextInterval = "notificationActionNextInterval"
+    static let handleWatchKitExtensionRequest = "handleWatchKitExtensionRequest"
 }
 
 struct NotificationActions {
@@ -139,6 +140,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let types = UIUserNotificationType.Alert | UIUserNotificationType.Sound
         let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory])
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+    }
+    
+    // MARK: - WatchKit Extension
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        
+        // package userInfo and the reply so we can send to the main app
+        let watchKitExtensionRequestPackage = YAPTWatchKitInfo(userInfo: userInfo, reply: reply)
+
+        // notify the main app that we have a request from the watch
+        NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.handleWatchKitExtensionRequest, object: watchKitExtensionRequestPackage)
+
     }
 
 }

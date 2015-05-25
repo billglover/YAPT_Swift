@@ -16,6 +16,7 @@
 		A9B507701B134F1500AC66B1 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5076E1B134F1500AC66B1 /* Interface.storyboard */; };
 		A9B507721B134F1500AC66B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B507711B134F1500AC66B1 /* Images.xcassets */; };
 		A9B507751B134F1500AC66B1 /* YAPT WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */; };
 		A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */; };
 		A9C8F1E31AFEA223001FD125 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E11AFEA223001FD125 /* Main.storyboard */; };
 		A9C8F1E51AFEA223001FD125 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E41AFEA223001FD125 /* Images.xcassets */; };
@@ -74,6 +75,7 @@
 		A9B5076D1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9B5076F1B134F1500AC66B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		A9B507711B134F1500AC66B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTWatchKitInfo.swift; sourceTree = "<group>"; };
 		A9C8F1D81AFEA223001FD125 /* YAPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8F1DC1AFEA223001FD125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */,
+				A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */,
 				A9C8F1E11AFEA223001FD125 /* Main.storyboard */,
 				A9C8F1DB1AFEA223001FD125 /* Supporting Files */,
 			);
@@ -293,9 +296,11 @@
 				TargetAttributes = {
 					A9B507571B134F1500AC66B1 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7X7TY4V6Z4;
 					};
 					A9B507661B134F1500AC66B1 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7X7TY4V6Z4;
 					};
 					A9C8F1D71AFEA223001FD125 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -380,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */,
 				A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */,
 				A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */,
 			);
@@ -444,6 +450,7 @@
 		A9B507761B134F1500AC66B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -458,6 +465,7 @@
 		A9B507771B134F1500AC66B1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "YAPT WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -469,6 +477,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -477,6 +487,7 @@
 				INFOPLIST_FILE = "YAPT WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -487,10 +498,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				IBSC_MODULE = YAPT_WatchKit_Extension;
 				INFOPLIST_FILE = "YAPT WatchKit App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -642,6 +656,7 @@
 				A9B507791B134F1500AC66B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A9B5077B1B134F1500AC66B1 /* Build configuration list for PBXNativeTarget "YAPT WatchKit Extension" */ = {
 			isa = XCConfigurationList;
@@ -650,6 +665,7 @@
 				A9B507771B134F1500AC66B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A9C8F1D31AFEA222001FD125 /* Build configuration list for PBXProject "YAPT" */ = {
 			isa = XCConfigurationList;

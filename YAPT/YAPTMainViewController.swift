@@ -122,7 +122,7 @@ class YAPTMainViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    @IBAction func timerButtonPressed(sender: AnyObject) {
+    @IBAction func timerButtonPressed() {
         if let timerButtonText = timerButton.titleLabel?.text {
             switch timerButtonText {
             case "Start":
@@ -149,6 +149,7 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
         
         // load a test schedule
         schedule.append((type: IntervalType.Work, duration:1500.0))
@@ -269,4 +270,22 @@ class YAPTMainViewController: UIViewController {
         applicationDidEnterBackground()
     }
     
+    func handleWatchKitExtensionRequest(notification: NSNotification) {
+        if let watchKitExtensionRequestPackage = notification.object as? YAPTWatchKitInfo {
+            
+            if let action = watchKitExtensionRequestPackage.action {
+                
+                switch action {
+                case "startStopButtonPressed":
+                    println("Watch Start/Stop Button Presed")
+                    timerButtonPressed()
+                default:
+                    break
+                }
+                
+                watchKitExtensionRequestPackage.replyBlock(["reply": action])
+            }
+            
+        }
+    }
 }

@@ -9,9 +9,18 @@
 import WatchKit
 import Foundation
 
-
 class InterfaceController: WKInterfaceController {
-
+    
+    // MARK: - Interface Properties
+    @IBOutlet weak var timerDetailLabel: WKInterfaceLabel!
+    @IBOutlet weak var timerCounter: WKInterfaceTimer!
+    @IBOutlet weak var timerInterfaceButton: WKInterfaceButton!
+    @IBOutlet weak var outerGroup: WKInterfaceGroup!
+    
+    // MARK: - Internal Properties
+    var toggle: Bool = false
+    
+    // MARK: - WatchKit Lifecycle
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -28,4 +37,23 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
+    // MARK: - User Interaction
+    @IBAction func timerControlPressed() {
+        
+        var watchKitInfo: [NSObject : AnyObject] = [:]
+        watchKitInfo["action"] = "startStopButtonPressed"
+        
+        WKInterfaceController.openParentApplication(watchKitInfo, reply: {(reply, error) -> Void in
+            println("\(reply)")
+        })
+        
+        if (toggle) {
+            timerInterfaceButton.setTitle("Start")
+            timerCounter.setTextColor(UIColor.redColor())
+        } else {
+            timerInterfaceButton.setTitle("Stop")
+            timerCounter.setTextColor(UIColor.blueColor())
+        }
+        toggle = !toggle
+    }
 }
