@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */; };
+		A9B5075E1B134F1500AC66B1 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */; };
+		A9B507601B134F1500AC66B1 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075F1B134F1500AC66B1 /* NotificationController.swift */; };
+		A9B507621B134F1500AC66B1 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B507611B134F1500AC66B1 /* GlanceController.swift */; };
+		A9B507641B134F1500AC66B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B507631B134F1500AC66B1 /* Images.xcassets */; };
+		A9B507681B134F1500AC66B1 /* YAPT WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */; };
+		A9B507701B134F1500AC66B1 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5076E1B134F1500AC66B1 /* Interface.storyboard */; };
+		A9B507721B134F1500AC66B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B507711B134F1500AC66B1 /* Images.xcassets */; };
+		A9B507751B134F1500AC66B1 /* YAPT WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */; };
 		A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */; };
 		A9C8F1E31AFEA223001FD125 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E11AFEA223001FD125 /* Main.storyboard */; };
 		A9C8F1E51AFEA223001FD125 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C8F1E41AFEA223001FD125 /* Images.xcassets */; };
@@ -16,6 +25,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A9B507691B134F1500AC66B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9C8F1D01AFEA222001FD125 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9B507661B134F1500AC66B1;
+			remoteInfo = "YAPT WatchKit App";
+		};
+		A9B507731B134F1500AC66B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9C8F1D01AFEA222001FD125 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9B507571B134F1500AC66B1;
+			remoteInfo = "YAPT WatchKit Extension";
+		};
 		A9C8F1EE1AFEA223001FD125 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A9C8F1D01AFEA222001FD125 /* Project object */;
@@ -25,8 +48,34 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A9B5077C1B134F1500AC66B1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A9B507751B134F1500AC66B1 /* YAPT WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTMainViewController.swift; sourceTree = "<group>"; };
+		A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "YAPT WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9B5075B1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9B5075C1B134F1500AC66B1 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		A9B5075F1B134F1500AC66B1 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		A9B507611B134F1500AC66B1 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
+		A9B507631B134F1500AC66B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YAPT WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9B5076D1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9B5076F1B134F1500AC66B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		A9B507711B134F1500AC66B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTWatchKitInfo.swift; sourceTree = "<group>"; };
 		A9C8F1D81AFEA223001FD125 /* YAPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8F1DC1AFEA223001FD125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +88,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A9B507551B134F1500AC66B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9C8F1D51AFEA223001FD125 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -56,11 +112,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9B507591B134F1500AC66B1 /* YAPT WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */,
+				A9B5075F1B134F1500AC66B1 /* NotificationController.swift */,
+				A9B507611B134F1500AC66B1 /* GlanceController.swift */,
+				A9B507631B134F1500AC66B1 /* Images.xcassets */,
+				A9B5075A1B134F1500AC66B1 /* Supporting Files */,
+			);
+			path = "YAPT WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		A9B5075A1B134F1500AC66B1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A9B5075B1B134F1500AC66B1 /* Info.plist */,
+				A9B5075C1B134F1500AC66B1 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9B5076B1B134F1500AC66B1 /* YAPT WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				A9B5076E1B134F1500AC66B1 /* Interface.storyboard */,
+				A9B507711B134F1500AC66B1 /* Images.xcassets */,
+				A9B5076C1B134F1500AC66B1 /* Supporting Files */,
+			);
+			path = "YAPT WatchKit App";
+			sourceTree = "<group>";
+		};
+		A9B5076C1B134F1500AC66B1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A9B5076D1B134F1500AC66B1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		A9C8F1CF1AFEA222001FD125 = {
 			isa = PBXGroup;
 			children = (
 				A9C8F1DA1AFEA223001FD125 /* YAPT */,
 				A9C8F1F01AFEA223001FD125 /* YAPTTests */,
+				A9B507591B134F1500AC66B1 /* YAPT WatchKit Extension */,
+				A9B5076B1B134F1500AC66B1 /* YAPT WatchKit App */,
 				A9C8F1D91AFEA223001FD125 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +167,8 @@
 			children = (
 				A9C8F1D81AFEA223001FD125 /* YAPT.app */,
 				A9C8F1ED1AFEA223001FD125 /* YAPTTests.xctest */,
+				A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */,
+				A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */,
+				A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */,
 				A9C8F1E11AFEA223001FD125 /* Main.storyboard */,
 				A9C8F1DB1AFEA223001FD125 /* Supporting Files */,
 			);
@@ -115,6 +215,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A9B507571B134F1500AC66B1 /* YAPT WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9B5077B1B134F1500AC66B1 /* Build configuration list for PBXNativeTarget "YAPT WatchKit Extension" */;
+			buildPhases = (
+				A9B507541B134F1500AC66B1 /* Sources */,
+				A9B507551B134F1500AC66B1 /* Frameworks */,
+				A9B507561B134F1500AC66B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9B5076A1B134F1500AC66B1 /* PBXTargetDependency */,
+			);
+			name = "YAPT WatchKit Extension";
+			productName = "YAPT WatchKit Extension";
+			productReference = A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		A9B507661B134F1500AC66B1 /* YAPT WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9B5077A1B134F1500AC66B1 /* Build configuration list for PBXNativeTarget "YAPT WatchKit App" */;
+			buildPhases = (
+				A9B507651B134F1500AC66B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "YAPT WatchKit App";
+			productName = "YAPT WatchKit App";
+			productReference = A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		A9C8F1D71AFEA223001FD125 /* YAPT */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9C8F1F71AFEA223001FD125 /* Build configuration list for PBXNativeTarget "YAPT" */;
@@ -122,10 +255,12 @@
 				A9C8F1D41AFEA223001FD125 /* Sources */,
 				A9C8F1D51AFEA223001FD125 /* Frameworks */,
 				A9C8F1D61AFEA223001FD125 /* Resources */,
+				A9B5077C1B134F1500AC66B1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9B507741B134F1500AC66B1 /* PBXTargetDependency */,
 			);
 			name = YAPT;
 			productName = YAPT;
@@ -159,6 +294,14 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Bill Glover";
 				TargetAttributes = {
+					A9B507571B134F1500AC66B1 = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7X7TY4V6Z4;
+					};
+					A9B507661B134F1500AC66B1 = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7X7TY4V6Z4;
+					};
 					A9C8F1D71AFEA223001FD125 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -183,11 +326,31 @@
 			targets = (
 				A9C8F1D71AFEA223001FD125 /* YAPT */,
 				A9C8F1EC1AFEA223001FD125 /* YAPTTests */,
+				A9B507571B134F1500AC66B1 /* YAPT WatchKit Extension */,
+				A9B507661B134F1500AC66B1 /* YAPT WatchKit App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A9B507561B134F1500AC66B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9B507681B134F1500AC66B1 /* YAPT WatchKit App.app in Resources */,
+				A9B507641B134F1500AC66B1 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9B507651B134F1500AC66B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9B507701B134F1500AC66B1 /* Interface.storyboard in Resources */,
+				A9B507721B134F1500AC66B1 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9C8F1D61AFEA223001FD125 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -208,10 +371,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A9B507541B134F1500AC66B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9B507601B134F1500AC66B1 /* NotificationController.swift in Sources */,
+				A9B5075E1B134F1500AC66B1 /* InterfaceController.swift in Sources */,
+				A9B507621B134F1500AC66B1 /* GlanceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9C8F1D41AFEA223001FD125 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */,
 				A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */,
 				A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */,
 			);
@@ -228,6 +402,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A9B5076A1B134F1500AC66B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9B507661B134F1500AC66B1 /* YAPT WatchKit App */;
+			targetProxy = A9B507691B134F1500AC66B1 /* PBXContainerItemProxy */;
+		};
+		A9B507741B134F1500AC66B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9B507571B134F1500AC66B1 /* YAPT WatchKit Extension */;
+			targetProxy = A9B507731B134F1500AC66B1 /* PBXContainerItemProxy */;
+		};
 		A9C8F1EF1AFEA223001FD125 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A9C8F1D71AFEA223001FD125 /* YAPT */;
@@ -236,6 +420,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		A9B5076E1B134F1500AC66B1 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9B5076F1B134F1500AC66B1 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		A9C8F1E11AFEA223001FD125 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -255,6 +447,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A9B507761B134F1500AC66B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "YAPT WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A9B507771B134F1500AC66B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "YAPT WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		A9B507781B134F1500AC66B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = YAPT_WatchKit_Extension;
+				INFOPLIST_FILE = "YAPT WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		A9B507791B134F1500AC66B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				IBSC_MODULE = YAPT_WatchKit_Extension;
+				INFOPLIST_FILE = "YAPT WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		A9C8F1F51AFEA223001FD125 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -393,6 +649,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A9B5077A1B134F1500AC66B1 /* Build configuration list for PBXNativeTarget "YAPT WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9B507781B134F1500AC66B1 /* Debug */,
+				A9B507791B134F1500AC66B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9B5077B1B134F1500AC66B1 /* Build configuration list for PBXNativeTarget "YAPT WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9B507761B134F1500AC66B1 /* Debug */,
+				A9B507771B134F1500AC66B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A9C8F1D31AFEA222001FD125 /* Build configuration list for PBXProject "YAPT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

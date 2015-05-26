@@ -24,5 +24,15 @@ sips --resampleWidth 29 "${f}/${1}" --out "${f}/iPhoneSettings.png"
 sips --resampleWidth 58 "${f}/${1}" --out "${f}/iPadSettings@2x.png"
 sips --resampleWidth 29 "${f}/${1}" --out "${f}/iPadSettings.png"
 
+# Watch Icons
+sips --resampleWidth 80 "${f}/${1}" --out "${f}/AppleWatchHome@2x.png"
+sips --resampleWidth 58 "${f}/${1}" --out "${f}/AppleWatchCompainionSettings@2x.png"
+sips --resampleWidth 87 "${f}/${1}" --out "${f}/AppleWatchCompainionSettings@3x.png"
+sips --resampleWidth 48 "${f}/${1}" --out "${f}/AppleWatchNotificationCenter@38.png"
+sips --resampleWidth 55 "${f}/${1}" --out "${f}/AppleWatchNotificationCenter@42.png"
+sips --resampleWidth 88 "${f}/${1}" --out "${f}/AppleWatchLongLookNotification@42.png"
+sips --resampleWidth 172 "${f}/${1}" --out "${f}/AppleWatchShortLookNotification@38.png"
+sips --resampleWidth 196 "${f}/${1}" --out "${f}/AppleWatchShortLookNotification@42.png"
+
 # Source:
 # https://gist.github.com/jessedc/837916

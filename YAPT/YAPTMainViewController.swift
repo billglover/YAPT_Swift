@@ -28,15 +28,15 @@ extension NSTimeInterval {
 class YAPTMainViewController: UIViewController {
 
     // MARK: - Types
-    private enum IntervalType { case Work, Break }
+    private enum IntervalType: Int { case Work, Break }
     private typealias Interval = (type:IntervalType, duration:Double)
     
     // MARK: - UI Properties
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timerButton: UIButton!
     @IBOutlet var timerView: UIView!
-    var breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
-    var workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
+    let breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
+    let workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
     
     // MARK: - Properties
     private var timer = NSTimer()
@@ -122,7 +122,7 @@ class YAPTMainViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    @IBAction func timerButtonPressed(sender: AnyObject) {
+    @IBAction func timerButtonPressed() {
         if let timerButtonText = timerButton.titleLabel?.text {
             switch timerButtonText {
             case "Start":
@@ -149,25 +149,26 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
         
         // load a test schedule
-        schedule.append((type: IntervalType.Work, duration:1500.0))
+        /*schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:900.0))
+        schedule.append((type: IntervalType.Break, duration:900.0))*/
 
-        /*schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))*/
+        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Work, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))
         
         currentIntervalIndex = 0
         
@@ -269,4 +270,49 @@ class YAPTMainViewController: UIViewController {
         applicationDidEnterBackground()
     }
     
+    func handleWatchKitExtensionRequest(notification: NSNotification) {
+        if let watchKitExtensionRequestPackage = notification.object as? YAPTWatchKitInfo {
+            
+            if let action = watchKitExtensionRequestPackage.action {
+                
+                switch action {
+                case "startStopButtonPressed":
+                    println("Watch Start/Stop Button Presed")
+                    timerButtonPressed()
+                default:
+                    break
+                }
+                
+                var replyInfo: [String : AnyObject] = [:]
+                replyInfo["timerState"] = timer.valid
+                replyInfo["currentInterval"] = currentIntervalIndex
+                replyInfo["totalIntervals"] = schedule.count
+                replyInfo["currentIntervalEndTime"] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+                
+                var red: CGFloat = 0.0
+                var green: CGFloat = 0.0
+                var blue: CGFloat = 0.0
+                var alpha: CGFloat = 0.0
+                
+                switch schedule[currentIntervalIndex].type {
+                case .Break:
+                    replyInfo["currentIntervalType"] = "Break"
+                    breakColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+                case .Work:
+                    replyInfo["currentIntervalType"] = "Work"
+                    workColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+                }
+                
+                replyInfo["currentIntervalColorRed"] = red
+                replyInfo["currentIntervalColorGreen"] = green
+                replyInfo["currentIntervalColorBlue"] = blue
+                replyInfo["currentIntervalColorAlpha"] = alpha
+                
+                let myVar = replyInfo
+                
+                watchKitExtensionRequestPackage.replyBlock(myVar)
+            }
+            
+        }
+    }
 }
