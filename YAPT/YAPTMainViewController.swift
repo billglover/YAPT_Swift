@@ -35,8 +35,8 @@ class YAPTMainViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timerButton: UIButton!
     @IBOutlet var timerView: UIView!
-    var breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
-    var workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
+    let breakColor = UIColor(red: 48/255.0, green: 119/255.0, blue: 198/255.0, alpha: 1.0)
+    let workColor = UIColor(red: 194/255, green: 49/255.0, blue: 52/255.0, alpha: 1.0)
     
     // MARK: - Properties
     private var timer = NSTimer()
@@ -152,23 +152,23 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
         
         // load a test schedule
-        schedule.append((type: IntervalType.Work, duration:1500.0))
+        /*schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:900.0))
+        schedule.append((type: IntervalType.Break, duration:900.0))*/
 
-        /*schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))*/
+        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Work, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))
         
         currentIntervalIndex = 0
         
@@ -287,18 +287,30 @@ class YAPTMainViewController: UIViewController {
                 replyInfo["timerState"] = timer.valid
                 replyInfo["currentInterval"] = currentIntervalIndex
                 replyInfo["totalIntervals"] = schedule.count
-                replyInfo["currentIntervalRemaining"] = remainingIntervalDuration
+                replyInfo["currentIntervalEndTime"] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+                
+                var red: CGFloat = 0.0
+                var green: CGFloat = 0.0
+                var blue: CGFloat = 0.0
+                var alpha: CGFloat = 0.0
                 
                 switch schedule[currentIntervalIndex].type {
                 case .Break:
                     replyInfo["currentIntervalType"] = "Break"
-                    replyInfo["currentIntervalColor"] = breakColor
+                    breakColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
                 case .Work:
                     replyInfo["currentIntervalType"] = "Work"
-                    replyInfo["currentIntervalColor"] = workColor
+                    workColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
                 }
                 
-                watchKitExtensionRequestPackage.replyBlock(replyInfo)
+                replyInfo["currentIntervalColorRed"] = red
+                replyInfo["currentIntervalColorGreen"] = green
+                replyInfo["currentIntervalColorBlue"] = blue
+                replyInfo["currentIntervalColorAlpha"] = alpha
+                
+                let myVar = replyInfo
+                
+                watchKitExtensionRequestPackage.replyBlock(myVar)
             }
             
         }

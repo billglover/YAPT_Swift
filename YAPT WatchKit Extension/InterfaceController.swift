@@ -17,9 +17,6 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var timerInterfaceButton: WKInterfaceButton!
     @IBOutlet weak var outerGroup: WKInterfaceGroup!
     
-    // MARK: - Internal Properties
-    var toggle: Bool = false
-    
     // MARK: - WatchKit Lifecycle
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -43,17 +40,53 @@ class InterfaceController: WKInterfaceController {
         var watchKitInfo: [NSObject : AnyObject] = [:]
         watchKitInfo["action"] = "startStopButtonPressed"
         
-        WKInterfaceController.openParentApplication(watchKitInfo, reply: {(reply, error) -> Void in
+        WKInterfaceController.openParentApplication(watchKitInfo, reply: { [unowned self](reply, error) -> Void in
+            
+            if let reply = reply as? [String : AnyObject] {
+            
+                if let currentIntervalType = reply["currentIntervalType"] as? String {
+                    self.timerDetailLabel.setText(currentIntervalType)
+                }
+                
+                if let currentIntervalEndTime = reply["currentIntervalEndTime"] as? NSDate {
+                    self.timerCounter.setDate(currentIntervalEndTime)
+                    
+                    if let timerState = reply["timerState"] as? Bool {
+                        if timerState {
+                            self.timerInterfaceButton.setTitle("Stop")
+                            self.timerCounter.start()
+                        } else {
+                            self.timerInterfaceButton.setTitle("Start")
+                            self.timerCounter.stop()
+                        }
+                    }
+                }
+                
+                if let red = reply["currentIntervalColorRed"] as? CGFloat {
+                    
+                    if let green = reply["currentIntervalColorGreen"] as? CGFloat {
+                     
+                        if let blue = reply["currentIntervalColorBlue"] as? CGFloat {
+                         
+                            if let alpha = reply["currentIntervalColorAlpha"] as? CGFloat {
+                                
+                                var color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+                                self.timerCounter.setTextColor(color)
+                                self.timerInterfaceButton.setBackgroundColor(color)
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            
+            
             println("\(reply)")
         })
-        
-        if (toggle) {
-            timerInterfaceButton.setTitle("Start")
-            timerCounter.setTextColor(UIColor.redColor())
-        } else {
-            timerInterfaceButton.setTitle("Stop")
-            timerCounter.setTextColor(UIColor.blueColor())
-        }
-        toggle = !toggle
     }
 }
