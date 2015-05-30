@@ -144,8 +144,8 @@ class YAPTMainViewController: UIViewController {
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:900.0))*/
 
-        schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Work, duration:10.0))
+        schedule.append((type: IntervalType.Break, duration:15.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
@@ -266,36 +266,30 @@ class YAPTMainViewController: UIViewController {
                     break
                 }
                 
-                var replyInfo: [String : AnyObject] = [:]
-                replyInfo["timerState"] = timer.valid
-                replyInfo["currentInterval"] = currentIntervalIndex
-                replyInfo["totalIntervals"] = schedule.count
-                replyInfo["currentIntervalEndTime"] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
-                
-                var red: CGFloat = 0.0
-                var green: CGFloat = 0.0
-                var blue: CGFloat = 0.0
-                var alpha: CGFloat = 0.0
-                
-                switch schedule[currentIntervalIndex].type {
-                case .Break:
-                    replyInfo["currentIntervalType"] = "Break"
-                    breakColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-                case .Work:
-                    replyInfo["currentIntervalType"] = "Work"
-                    workColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-                }
-                
-                replyInfo["currentIntervalColorRed"] = red
-                replyInfo["currentIntervalColorGreen"] = green
-                replyInfo["currentIntervalColorBlue"] = blue
-                replyInfo["currentIntervalColorAlpha"] = alpha
-                
-                let myVar = replyInfo
-                
-                watchKitExtensionRequestPackage.replyBlock(myVar)
+                watchKitExtensionRequestPackage.replyBlock(getWatchKitViewStateForInterval(schedule[currentIntervalIndex]))
             }
             
         }
+    }
+    
+    private func getWatchKitViewStateForInterval(interval: Interval) -> [String: AnyObject] {
+        /*
+        This function captures the current state in a dictionary so that it can be
+        sent over to the watch.
+        
+            intervalType: work/break
+            intervalEnd: NSDate
+            intervalDuration: NSTimeInterval
+            intervalTimerState: bool
+        */
+        
+        var viewStateInfo: [String: AnyObject] = [:]
+        
+        viewStateInfo["intervalType"] = interval.type.rawValue
+        viewStateInfo["intervalEnd"] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+        viewStateInfo["intervalDuration"] = interval.duration
+        viewStateInfo["intervalTimerState"] = timer.valid
+        
+        return viewStateInfo
     }
 }
