@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */; };
+		A9705CE51B19F84E0023E3F6 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9705CE41B19F84E0023E3F6 /* SwiftExtensions.swift */; };
 		A9B5075E1B134F1500AC66B1 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */; };
 		A9B507601B134F1500AC66B1 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075F1B134F1500AC66B1 /* NotificationController.swift */; };
 		A9B507621B134F1500AC66B1 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B507611B134F1500AC66B1 /* GlanceController.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTMainViewController.swift; sourceTree = "<group>"; };
+		A9705CE41B19F84E0023E3F6 /* SwiftExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "YAPT WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B5075B1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9B5075C1B134F1500AC66B1 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */,
+				A9705CE41B19F84E0023E3F6 /* SwiftExtensions.swift */,
 				A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */,
 				A9C8F1E11AFEA223001FD125 /* Main.storyboard */,
 				A9C8F1DB1AFEA223001FD125 /* Supporting Files */,
@@ -386,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */,
+				A9705CE51B19F84E0023E3F6 /* SwiftExtensions.swift in Sources */,
 				A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */,
 				A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */,
 			);
