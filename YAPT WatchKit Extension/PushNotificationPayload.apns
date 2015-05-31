@@ -4,13 +4,13 @@
             "body": "Test message",
             "title": "Optional title"
         },
-        "category": "myCategory"
+        "category": "intervalNotificationCategoryIdentifier"
     },
     
     "WatchKit Simulator Actions": [
         {
-            "title": "First Button",
-            "identifier": "firstButtonAction"
+            "title": "Next Interval",
+            "identifier": "nextActionIdentifier"
         }
     ],
     

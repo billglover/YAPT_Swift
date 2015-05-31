@@ -135,23 +135,23 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
         
         // load a test schedule
-        /*schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:300.0))
         schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:900.0))*/
+        schedule.append((type: IntervalType.Break, duration:300.0))
+        schedule.append((type: IntervalType.Work, duration:1500.0))
+        schedule.append((type: IntervalType.Break, duration:900.0))
 
-        schedule.append((type: IntervalType.Work, duration:10.0))
+        /*schedule.append((type: IntervalType.Work, duration:10.0))
         schedule.append((type: IntervalType.Break, duration:15.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
         schedule.append((type: IntervalType.Break, duration:5.0))
         schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
+        schedule.append((type: IntervalType.Break, duration:5.0))*/
         
         currentIntervalIndex = 0
         

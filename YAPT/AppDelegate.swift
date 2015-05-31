@@ -125,16 +125,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nextAction.destructive = false
         nextAction.authenticationRequired = false
         
+        /*
+        // Removed as 'dismiss' seems to be a standard action
         var abortAction = UIMutableUserNotificationAction()
         abortAction.identifier = NotificationActions.abortActionIdentifier
         abortAction.title = "Dismiss"
         abortAction.activationMode = UIUserNotificationActivationMode.Background
         abortAction.destructive = true
         abortAction.authenticationRequired = false
-        
+        */
+
         var intervalNotificationCategory = UIMutableUserNotificationCategory()
         intervalNotificationCategory.identifier = NotificationCategories.intervalNotificationCategoryIdentifier
-        intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
+        //intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
+        intervalNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
+
         
         
         let types = UIUserNotificationType.Alert | UIUserNotificationType.Sound
