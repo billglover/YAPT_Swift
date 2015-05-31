@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--YAPT-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="YAPT_WatchKit_App" customModuleProvider="target">
+                <controller title="YAPT" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="YAPT_WatchKit_App" customModuleProvider="target">
                     <items>
                         <group width="1" height="1" alignment="left" layout="vertical" radius="0.0" id="P1P-g5-FnA">
                             <items>
@@ -56,6 +56,7 @@
                         <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="intervalNotificationCategoryIdentifier" id="JfB-70-Muf"/>
+                    <color key="backgroundColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="49B-RR-99y"/>
                         <segue destination="gdX-wl-uQE" kind="relationship" relationship="dynamicNotificationInterface" id="fKh-qV-3T2"/>
@@ -67,7 +68,16 @@
         <!--Notification Controller-->
         <scene sceneID="KIl-fV-djm">
             <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="YAPT_WatchKit_App" customModuleProvider="target"/>
+                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="YAPT_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label width="1" alignment="left" numberOfLines="0" id="KNq-5g-Hfx"/>
+                    </items>
+                    <color key="backgroundColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <edgeInsets key="margins" left="1" right="1" top="0.0" bottom="0.0"/>
+                    <connections>
+                        <outlet property="notificationDetailLabel" destination="KNq-5g-Hfx" id="RBT-YZ-3oJ"/>
+                    </connections>
+                </controller>
             </objects>
             <point key="canvasLocation" x="553" y="1001"/>
         </scene>
