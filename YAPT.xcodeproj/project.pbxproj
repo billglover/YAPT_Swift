@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		A92E44721AFEA5040086EF35 /* YAPTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */; };
+		A94B39DB1B1B3D16000807C9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A94B39DA1B1B3D16000807C9 /* Images.xcassets */; };
 		A9705CE51B19F84E0023E3F6 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9705CE41B19F84E0023E3F6 /* SwiftExtensions.swift */; };
 		A9B5075E1B134F1500AC66B1 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */; };
 		A9B507601B134F1500AC66B1 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5075F1B134F1500AC66B1 /* NotificationController.swift */; };
 		A9B507621B134F1500AC66B1 /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B507611B134F1500AC66B1 /* GlanceController.swift */; };
-		A9B507641B134F1500AC66B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B507631B134F1500AC66B1 /* Images.xcassets */; };
 		A9B507681B134F1500AC66B1 /* YAPT WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */; };
 		A9B507701B134F1500AC66B1 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B5076E1B134F1500AC66B1 /* Interface.storyboard */; };
-		A9B507721B134F1500AC66B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9B507711B134F1500AC66B1 /* Images.xcassets */; };
 		A9B507751B134F1500AC66B1 /* YAPT WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A9B5077E1B13A75500AC66B1 /* YAPTWatchKitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */; };
 		A9C8F1DE1AFEA223001FD125 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C8F1DD1AFEA223001FD125 /* AppDelegate.swift */; };
@@ -65,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		A92E44711AFEA5040086EF35 /* YAPTMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTMainViewController.swift; sourceTree = "<group>"; };
+		A94B39DA1B1B3D16000807C9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A9705CE41B19F84E0023E3F6 /* SwiftExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		A9B507581B134F1500AC66B1 /* YAPT WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "YAPT WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B5075B1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,11 +72,9 @@
 		A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		A9B5075F1B134F1500AC66B1 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		A9B507611B134F1500AC66B1 /* GlanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
-		A9B507631B134F1500AC66B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A9B507671B134F1500AC66B1 /* YAPT WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YAPT WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B5076D1B134F1500AC66B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9B5076F1B134F1500AC66B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		A9B507711B134F1500AC66B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A9B5077D1B13A75500AC66B1 /* YAPTWatchKitInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YAPTWatchKitInfo.swift; sourceTree = "<group>"; };
 		A9C8F1D81AFEA223001FD125 /* YAPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YAPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8F1DC1AFEA223001FD125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				A9B5075D1B134F1500AC66B1 /* InterfaceController.swift */,
 				A9B5075F1B134F1500AC66B1 /* NotificationController.swift */,
 				A9B507611B134F1500AC66B1 /* GlanceController.swift */,
-				A9B507631B134F1500AC66B1 /* Images.xcassets */,
 				A9B5075A1B134F1500AC66B1 /* Supporting Files */,
 			);
 			path = "YAPT WatchKit Extension";
@@ -139,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				A9B5076E1B134F1500AC66B1 /* Interface.storyboard */,
-				A9B507711B134F1500AC66B1 /* Images.xcassets */,
 				A9B5076C1B134F1500AC66B1 /* Supporting Files */,
 			);
 			path = "YAPT WatchKit App";
@@ -149,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				A9B5076D1B134F1500AC66B1 /* Info.plist */,
+				A94B39DA1B1B3D16000807C9 /* Images.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -341,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B507681B134F1500AC66B1 /* YAPT WatchKit App.app in Resources */,
-				A9B507641B134F1500AC66B1 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,8 +345,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A94B39DB1B1B3D16000807C9 /* Images.xcassets in Resources */,
 				A9B507701B134F1500AC66B1 /* Interface.storyboard in Resources */,
-				A9B507721B134F1500AC66B1 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
