@@ -32,6 +32,11 @@ class YAPTMainViewController: UIViewController {
             timerLabel.text = String(format: "%02.0f:%02.0f", remainingIntervalDuration.inMinutesSeconds.minutes, remainingIntervalDuration.inMinutesSeconds.seconds)
         }
     }
+    private var nextIntervalIndex: Int {
+        get {
+            return (currentIntervalIndex + 1) % schedule.count
+        }
+    }
 
     // MARK: - Timer Methods
     private func startTimer() {
@@ -144,14 +149,14 @@ class YAPTMainViewController: UIViewController {
         schedule.append((type: IntervalType.Work, duration:1500.0))
         schedule.append((type: IntervalType.Break, duration:900.0))
 
-        /*schedule.append((type: IntervalType.Work, duration:10.0))
-        schedule.append((type: IntervalType.Break, duration:15.0))
-        schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
-        schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))
-        schedule.append((type: IntervalType.Work, duration:5.0))
-        schedule.append((type: IntervalType.Break, duration:5.0))*/
+//        schedule.append((type: IntervalType.Work, duration:10.0))
+//        schedule.append((type: IntervalType.Break, duration:15.0))
+//        schedule.append((type: IntervalType.Work, duration:5.0))
+//        schedule.append((type: IntervalType.Break, duration:5.0))
+//        schedule.append((type: IntervalType.Work, duration:5.0))
+//        schedule.append((type: IntervalType.Break, duration:5.0))
+//        schedule.append((type: IntervalType.Work, duration:5.0))
+//        schedule.append((type: IntervalType.Break, duration:5.0))
         
         currentIntervalIndex = 0
         
@@ -159,6 +164,36 @@ class YAPTMainViewController: UIViewController {
     }
     
     // MARK: - Notifications
+    func scheduleLocalNotification() {
+        if timer.valid {
+            
+            let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
+            remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
+            
+            var localNotification = UILocalNotification()
+            localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            
+            // decide which notification interface to show
+            switch schedule[nextIntervalIndex].type {
+            case .Break:
+                localNotification.alertTitle = "Time for a break"
+                localNotification.category = NotificationCategories.breakNotificationCategory
+                localNotification.alertBody = "Pomodoro complete, it's time to take a break."
+            case .Work:
+                localNotification.alertTitle = "Back to work"
+                localNotification.category = NotificationCategories.workNotificationCategory
+                localNotification.alertBody = "Break over, it's time to get back to work."
+            }
+            
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            let userInfo:[String:Int] = ["index": currentIntervalIndex]
+            localNotification.userInfo = userInfo
+            
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        }
+    }
+    
     func applicationWillResignActive() {
         println("notification recieved for: applicationWillResignActive")
     }
@@ -169,29 +204,9 @@ class YAPTMainViewController: UIViewController {
         // clear outstanding notifications
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
-        // set local notification for active timer
         if timer.valid {
-            let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
-            remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
             
-            var localNotification = UILocalNotification()
-            localNotification.fireDate = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
-            localNotification.timeZone = NSTimeZone.defaultTimeZone()
-            
-            switch schedule[currentIntervalIndex].type {
-            case .Break:
-                localNotification.alertTitle = "Break Over"
-            case .Work:
-                localNotification.alertTitle = "Time's Up"
-            }
-            localNotification.alertBody = "Interval \(currentIntervalIndex + 1) of \(schedule.count)."
-            localNotification.category = NotificationCategories.intervalNotificationCategoryIdentifier
-            localNotification.soundName = UILocalNotificationDefaultSoundName
-            
-            let userInfo:[String:Int] = ["index": currentIntervalIndex]
-            localNotification.userInfo = userInfo
-            
-            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+            scheduleLocalNotification()
             
             // save timer state
             var userDefaults = NSUserDefaults.standardUserDefaults()
@@ -218,7 +233,7 @@ class YAPTMainViewController: UIViewController {
             currentIntervalIndex = userDefaults.integerForKey("currentIntervalIndex")
             
             // re-start active timer
-            timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerTickEvent"), userInfo: nil, repeats: true)
         }
         
         // clear all saved timers
