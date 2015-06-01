@@ -25,6 +25,8 @@ struct NotificationActions {
 
 struct NotificationCategories {
     static let intervalNotificationCategoryIdentifier = "intervalNotificationCategoryIdentifier"
+    static let workNotificationCategory = "workNotificationCategory"
+    static let breakNotificationCategory = "breakNotificationCategory"
 }
 
 @UIApplicationMain
@@ -140,10 +142,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
         intervalNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
 
+        var breakNotificationCategory = UIMutableUserNotificationCategory()
+        breakNotificationCategory.identifier = NotificationCategories.breakNotificationCategory
+        breakNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
         
+        var workNotificationCategory = UIMutableUserNotificationCategory()
+        workNotificationCategory.identifier = NotificationCategories.workNotificationCategory
+        workNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
         
         let types = UIUserNotificationType.Alert | UIUserNotificationType.Sound
-        let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory])
+        let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory, breakNotificationCategory, workNotificationCategory])
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
