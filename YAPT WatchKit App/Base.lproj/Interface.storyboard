@@ -65,6 +65,38 @@
             </objects>
             <point key="canvasLocation" x="235" y="1001"/>
         </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="7Xm-L0-QK5">
+            <objects>
+                <notificationController id="x9X-Lv-tdV">
+                    <items>
+                        <label alignment="left" text="Alert Label" id="DGz-yp-9cI"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="workNotificationCategory" id="Cbr-hM-Arh"/>
+                    <color key="backgroundColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="DGz-yp-9cI" id="lMe-Ft-mBC"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="235" y="1226"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="LXE-aJ-a6M">
+            <objects>
+                <notificationController id="f40-et-xdd">
+                    <items>
+                        <label alignment="left" text="Alert Label" id="YXd-Is-NHK"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="breakNotificationCategory" id="EP9-SE-3co"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="YXd-Is-NHK" id="bE9-Za-ftj"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="235" y="1446"/>
+        </scene>
         <!--Notification Controller-->
         <scene sceneID="KIl-fV-djm">
             <objects>
