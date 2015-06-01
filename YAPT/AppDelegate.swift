@@ -25,6 +25,8 @@ struct NotificationActions {
 
 struct NotificationCategories {
     static let intervalNotificationCategoryIdentifier = "intervalNotificationCategoryIdentifier"
+    static let workNotificationCategory = "workNotificationCategory"
+    static let breakNotificationCategory = "breakNotificationCategory"
 }
 
 @UIApplicationMain
@@ -33,28 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        // register our Notification settings
         registerNotificationTypes()
-        
-        // decision to clear all notifications if the user force quits the application
-        /*
-        if let options = launchOptions {
-            if let notification = options[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
-                if let userInfo = notification.userInfo {
-                    if let currentIntervalIndex: Int = userInfo["index"] as? Int {
-                        println("didFinishLaunchingWithOptions: \(currentIntervalIndex)")
-                    }
-                }
-            }
-        }
-        */
-        
         return true
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        println("didReceiveLocalNotification received. Checking for userInfo")
         if let userInfo = notification.userInfo {
             if let currentIntervalIndex: Int = userInfo["index"] as? Int {
                 println("didReceiveLocalNotification: \(currentIntervalIndex)")
@@ -140,10 +126,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
         intervalNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
 
+        var breakNotificationCategory = UIMutableUserNotificationCategory()
+        breakNotificationCategory.identifier = NotificationCategories.breakNotificationCategory
+        breakNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
         
+        var workNotificationCategory = UIMutableUserNotificationCategory()
+        workNotificationCategory.identifier = NotificationCategories.workNotificationCategory
+        workNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
         
         let types = UIUserNotificationType.Alert | UIUserNotificationType.Sound
-        let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory])
+        let settings = UIUserNotificationSettings(forTypes: types, categories: [intervalNotificationCategory, breakNotificationCategory, workNotificationCategory])
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
     
