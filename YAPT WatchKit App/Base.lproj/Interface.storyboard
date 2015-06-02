@@ -49,23 +49,6 @@
             <point key="canvasLocation" x="235" y="672"/>
         </scene>
         <!--Static Notification Interface Controller-->
-        <scene sceneID="AEw-b0-oYE">
-            <objects>
-                <notificationController id="YCC-NB-fut">
-                    <items>
-                        <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
-                    </items>
-                    <notificationCategory key="notificationCategory" identifier="intervalNotificationCategoryIdentifier" id="JfB-70-Muf"/>
-                    <color key="backgroundColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="49B-RR-99y"/>
-                        <segue destination="gdX-wl-uQE" kind="relationship" relationship="dynamicNotificationInterface" id="fKh-qV-3T2"/>
-                    </connections>
-                </notificationController>
-            </objects>
-            <point key="canvasLocation" x="235" y="1001"/>
-        </scene>
-        <!--Static Notification Interface Controller-->
         <scene sceneID="7Xm-L0-QK5">
             <objects>
                 <notificationController id="x9X-Lv-tdV">
@@ -80,7 +63,7 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="235" y="1226"/>
+            <point key="canvasLocation" x="235" y="895"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="LXE-aJ-a6M">
@@ -97,23 +80,7 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="235" y="1446"/>
-        </scene>
-        <!--Notification Controller-->
-        <scene sceneID="KIl-fV-djm">
-            <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="YAPT_WatchKit_App" customModuleProvider="target">
-                    <items>
-                        <label width="1" alignment="left" numberOfLines="0" id="KNq-5g-Hfx"/>
-                    </items>
-                    <color key="backgroundColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <edgeInsets key="margins" left="1" right="1" top="0.0" bottom="0.0"/>
-                    <connections>
-                        <outlet property="notificationDetailLabel" destination="KNq-5g-Hfx" id="RBT-YZ-3oJ"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="553" y="1001"/>
+            <point key="canvasLocation" x="235" y="1115"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.76689877719999999" green="0.18540409999999999" blue="0.18540409999999999" alpha="1" colorSpace="calibratedRGB"/>
