@@ -9,6 +9,20 @@
 import WatchKit
 import Foundation
 
+// MARK: - Constants
+struct ParentAppActions {
+    static let interfaceUpdate = "interfaceUpdate"
+    static let startStopButtonPressed = "startStopButtonPressed"
+    static let actionIdentifier = "action"
+}
+
+struct ParentAppData {
+    static let intervalType = "intervalType"
+    static let intervalTimerState = "intervalTimerState"
+    static let intervalEnd = "intervalEnd"
+    static let intervalDuration = "intervalDuration"
+}
+
 class InterfaceController: WKInterfaceController {
     
     // MARK: - Interface Properties
@@ -24,64 +38,26 @@ class InterfaceController: WKInterfaceController {
     }
 
     override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         requestInterfaceUpdate()
     }
 
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
-    }
-
-    // MARK: - User Interface
+    // MARK: - User Interaction
     @IBAction func timerControlPressed() {
         signalStartStopButtonPressed()
     }
     
-    func updateInterfaceWithReplyFromParentApp(reply: [String : AnyObject]) {
-        
-        println("reply: \(reply)")
-        
-        // update the interface based on whether user should be working
-        // or taking a break
-        if let intervalType = reply["intervalType"] as? Int {
-            if intervalType == 0 { // work
-                timerDetailLabel.setText("Focus")
-            } else if intervalType == 1 { // break
-                timerDetailLabel.setText("Relax")
-            }
-        }
-        
-        // check if the timer is currently running
-        if let intervalTimerState = reply["intervalTimerState"] as? Bool {
-            if intervalTimerState == true {
-                
-                // update the time remaining
-                if let intervalEnd = reply["intervalEnd"] as? NSDate {
-                    timerCounter.setDate(intervalEnd)
-                    timerCounter.start()
-                    
-                    // set a local timer to ensure the interface updates when we hit 0
-                    var localTimer = NSTimer.scheduledTimerWithTimeInterval(intervalEnd.timeIntervalSinceNow, target: self, selector: Selector("requestInterfaceUpdate"), userInfo: nil, repeats: false)
-                    
-                }
-                
-                
-            } else {
-
-                timerCounter.stop()
-                if let intervalDuration = reply["intervalDuration"] as? NSTimeInterval {
-                    
-                    // for some reason the counter seems to round the time remaining down by 1s
-                    let newDuration = intervalDuration + 1.0
-                    let intervalEnd = NSDate(timeIntervalSinceNow: newDuration)
-                    timerCounter.setDate(intervalEnd)
-                }
-                
-            }
-        }
-
+    // MARK: - Parrent App Communication
+    func requestInterfaceUpdate() {
+        var watchKitInfo: [NSObject : AnyObject] = [:]
+        watchKitInfo[ParentAppActions.actionIdentifier] = ParentAppActions.interfaceUpdate
+        WKInterfaceController.openParentApplication(watchKitInfo, reply: handleParentAppReply)
+    }
+    
+    func signalStartStopButtonPressed() {
+        var watchKitInfo: [NSObject : AnyObject] = [:]
+        watchKitInfo[ParentAppActions.actionIdentifier] = ParentAppActions.startStopButtonPressed
+        WKInterfaceController.openParentApplication(watchKitInfo, reply: handleParentAppReply)
     }
     
     func handleParentAppReply(reply: [NSObject: AnyObject]!, _error: NSError!) -> Void {
@@ -90,15 +66,43 @@ class InterfaceController: WKInterfaceController {
         }
     }
     
-    func requestInterfaceUpdate() {
-        var watchKitInfo: [NSObject : AnyObject] = [:]
-        watchKitInfo["action"] = "interfaceUpdate"
-        WKInterfaceController.openParentApplication(watchKitInfo, reply: handleParentAppReply)
+    //MARK: - Update Interface
+    func updateInterfaceWithReplyFromParentApp(reply: [String : AnyObject]) {
+        
+        // update the interface based on whether user should be working or taking a break
+        if let intervalType = reply[ParentAppData.intervalType] as? Int {
+            if intervalType == 0 { // work
+                timerDetailLabel.setText("Focus")
+            } else { // break
+                timerDetailLabel.setText("Relax")
+            }
+        }
+        
+        // check if the timer is currently running
+        if let intervalTimerState = reply[ParentAppData.intervalTimerState] as? Bool {
+            
+            // if the timer is active, then display the remaining time and set countdown
+            if intervalTimerState == true {
+                
+                if let intervalEnd = reply[ParentAppData.intervalEnd] as? NSDate {
+                    timerCounter.setDate(intervalEnd)
+                    timerCounter.start()
+                    
+                    var localTimer = NSTimer.scheduledTimerWithTimeInterval(intervalEnd.timeIntervalSinceNow, target: self, selector: Selector("requestInterfaceUpdate"), userInfo: nil, repeats: false)
+                }
+            
+            // or if the timer isn't running, display the interval duration
+            } else {
+                
+                timerCounter.stop()
+                if let intervalDuration = reply[ParentAppData.intervalDuration] as? NSTimeInterval {
+                    let newDuration = intervalDuration + 1.0 // for some reason the counter seems to round the time remaining down by 1s
+                    let intervalEnd = NSDate(timeIntervalSinceNow: newDuration)
+                    timerCounter.setDate(intervalEnd)
+                }
+                
+            }
+        }
     }
-    
-    func signalStartStopButtonPressed() {
-        var watchKitInfo: [NSObject : AnyObject] = [:]
-        watchKitInfo["action"] = "startStopButtonPressed"
-        WKInterfaceController.openParentApplication(watchKitInfo, reply: handleParentAppReply)
-    }
+
 }
