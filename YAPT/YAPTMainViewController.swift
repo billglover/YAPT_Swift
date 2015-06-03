@@ -10,6 +10,20 @@ import UIKit
 
 class YAPTMainViewController: UIViewController {
 
+    // MARK: - Constants
+    struct ParentAppActions {
+        static let interfaceUpdate = "interfaceUpdate"
+        static let startStopButtonPressed = "startStopButtonPressed"
+        static let actionIdentifier = "action"
+    }
+    
+    struct ParentAppData {
+        static let intervalType = "intervalType"
+        static let intervalTimerState = "intervalTimerState"
+        static let intervalEnd = "intervalEnd"
+        static let intervalDuration = "intervalDuration"
+    }
+    
     // MARK: - Types
     private enum IntervalType: Int { case Work, Break }
     private typealias Interval = (type:IntervalType, duration:Double)
@@ -44,41 +58,24 @@ class YAPTMainViewController: UIViewController {
         remainingIntervalDuration = currentInterval.duration
         currentIntervalStartTime = NSDate()
         timer = NSTimer.scheduledTimerWithTimeInterval(timerTickInterval, target: self, selector: Selector("timerTickEvent"), userInfo: nil, repeats: true)
-        
-        println("intervalIndex \(currentIntervalIndex) started at \(currentIntervalStartTime)")
     }
 
     private func interruptTimer() {
         timer.invalidate()
-        println("intervalIndex \(currentIntervalIndex) interrupted at \(NSDate())")
     }
     
     private func completeTimer() {
         timer.invalidate()
-        println("intervalIndex \(currentIntervalIndex) completed at \(NSDate())")
-        
-        // print some diagnostic stats
-        println("target duration: \(schedule[currentIntervalIndex].duration)")
-        println("actual duration: \(currentIntervalStartTime.timeIntervalSinceNow * -1)")
-        
-        // set the remaining duration to be zero
         remainingIntervalDuration = 0.0
-        
-        // advance the currentIntervalIndex or loop back to the start
-        currentIntervalIndex = (currentIntervalIndex + 1) % schedule.count
-        
-        // toggle the timer button so that we can start again
+        currentIntervalIndex = nextIntervalIndex
         updateDisplay()
-    }
-    
-    private func resetTimer() {
-        println("resetTimer() called - Not Implemented")
     }
     
     func timerTickEvent() {
         let currentTimerDuration: NSTimeInterval = currentIntervalStartTime.timeIntervalSinceNow
         remainingIntervalDuration = schedule[currentIntervalIndex].duration + currentTimerDuration
-        
+
+        // check to see if we've completed the interval
         if round(remainingIntervalDuration) <= 0.0 {
             completeTimer()
         }
@@ -127,10 +124,40 @@ class YAPTMainViewController: UIViewController {
     // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        println("viewDidLoad")
-        
-        // handle notifications
+
+        registerNotificationHandlers()
+        loadSchedule(test: false)
+        currentIntervalIndex = 0
+        updateDisplay()
+    }
+    
+    func loadSchedule(#test: Bool) {
+
+        if test {
+            schedule.append((type: IntervalType.Work, duration:10.0))
+            schedule.append((type: IntervalType.Break, duration:15.0))
+            schedule.append((type: IntervalType.Work, duration:5.0))
+            schedule.append((type: IntervalType.Break, duration:5.0))
+            schedule.append((type: IntervalType.Work, duration:5.0))
+            schedule.append((type: IntervalType.Break, duration:5.0))
+            schedule.append((type: IntervalType.Work, duration:5.0))
+            schedule.append((type: IntervalType.Break, duration:5.0))
+        } else {
+            schedule.append((type: IntervalType.Work, duration:1500.0))
+            schedule.append((type: IntervalType.Break, duration:300.0))
+            schedule.append((type: IntervalType.Work, duration:1500.0))
+            schedule.append((type: IntervalType.Break, duration:300.0))
+            schedule.append((type: IntervalType.Work, duration:1500.0))
+            schedule.append((type: IntervalType.Break, duration:300.0))
+            schedule.append((type: IntervalType.Work, duration:1500.0))
+            schedule.append((type: IntervalType.Break, duration:900.0))
+        }
+            
+    }
+    
+    // MARK: - Notifications
+    func registerNotificationHandlers() {
+        // register notification handlers
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillResignActive), name: NotificationMessages.applicationWillResignActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidEnterBackground), name: NotificationMessages.applicationDidEnterBackground, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillEnterForeground), name: NotificationMessages.applicationWillEnterForeground, object: nil)
@@ -138,32 +165,8 @@ class YAPTMainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
-        
-        // load a test schedule
-        schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:300.0))
-        schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:300.0))
-        schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:300.0))
-        schedule.append((type: IntervalType.Work, duration:1500.0))
-        schedule.append((type: IntervalType.Break, duration:900.0))
-
-//        schedule.append((type: IntervalType.Work, duration:10.0))
-//        schedule.append((type: IntervalType.Break, duration:15.0))
-//        schedule.append((type: IntervalType.Work, duration:5.0))
-//        schedule.append((type: IntervalType.Break, duration:5.0))
-//        schedule.append((type: IntervalType.Work, duration:5.0))
-//        schedule.append((type: IntervalType.Break, duration:5.0))
-//        schedule.append((type: IntervalType.Work, duration:5.0))
-//        schedule.append((type: IntervalType.Break, duration:5.0))
-        
-        currentIntervalIndex = 0
-        
-        updateDisplay()
     }
     
-    // MARK: - Notifications
     func scheduleLocalNotification() {
         if timer.valid {
             
@@ -194,14 +197,7 @@ class YAPTMainViewController: UIViewController {
         }
     }
     
-    func applicationWillResignActive() {
-        println("notification recieved for: applicationWillResignActive")
-    }
-    
     func applicationDidEnterBackground() {
-        println("notification recieved for: applicationDidEnterBackground")
-        
-        // clear outstanding notifications
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         if timer.valid {
@@ -242,17 +238,10 @@ class YAPTMainViewController: UIViewController {
         
     }
     
-    func applicationDidBecomeActive() {
-        println("notification recieved for: applicationDidBecomeActive")
-    }
-    
     func applicationWillTerminate() {
         println("notification recieved for: applicationWillTerminate")
         
-        // clear all active timers
         timer.invalidate()
-        
-        // clear all notifications
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
         // clear all saved timers (just to be sure)
@@ -267,43 +256,35 @@ class YAPTMainViewController: UIViewController {
         startTimer()
         applicationDidEnterBackground()
     }
-    
+
+    // MARK: - WatchKit Requests
     func handleWatchKitExtensionRequest(notification: NSNotification) {
         if let watchKitExtensionRequestPackage = notification.object as? YAPTWatchKitInfo {
             
             if let action = watchKitExtensionRequestPackage.action {
                 
                 switch action {
-                case "startStopButtonPressed":
-                    println("Watch Start/Stop Button Presed")
+                case ParentAppActions.startStopButtonPressed:
+                    watchKitExtensionRequestPackage.replyBlock(getWatchKitViewStateForInterval(schedule[currentIntervalIndex]))
                     timerButtonPressed()
+                case ParentAppActions.interfaceUpdate:
+                    watchKitExtensionRequestPackage.replyBlock(getWatchKitViewStateForInterval(schedule[currentIntervalIndex]))
                 default:
                     break
+
                 }
-                
-                watchKitExtensionRequestPackage.replyBlock(getWatchKitViewStateForInterval(schedule[currentIntervalIndex]))
             }
-            
         }
     }
     
     private func getWatchKitViewStateForInterval(interval: Interval) -> [String: AnyObject] {
-        /*
-        This function captures the current state in a dictionary so that it can be
-        sent over to the watch.
-        
-            intervalType: work/break
-            intervalEnd: NSDate
-            intervalDuration: NSTimeInterval
-            intervalTimerState: bool
-        */
         
         var viewStateInfo: [String: AnyObject] = [:]
         
-        viewStateInfo["intervalType"] = interval.type.rawValue
-        viewStateInfo["intervalEnd"] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
-        viewStateInfo["intervalDuration"] = interval.duration
-        viewStateInfo["intervalTimerState"] = timer.valid
+        viewStateInfo[ParentAppData.intervalType] = interval.type.rawValue
+        viewStateInfo[ParentAppData.intervalEnd] = NSDate(timeIntervalSinceNow: remainingIntervalDuration)
+        viewStateInfo[ParentAppData.intervalDuration] = interval.duration
+        viewStateInfo[ParentAppData.intervalTimerState] = timer.valid
         
         return viewStateInfo
     }
