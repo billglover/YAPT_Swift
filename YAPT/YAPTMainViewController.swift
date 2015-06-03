@@ -158,10 +158,8 @@ class YAPTMainViewController: UIViewController {
     // MARK: - Notifications
     func registerNotificationHandlers() {
         // register notification handlers
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillResignActive), name: NotificationMessages.applicationWillResignActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidEnterBackground), name: NotificationMessages.applicationDidEnterBackground, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillEnterForeground), name: NotificationMessages.applicationWillEnterForeground, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationDidBecomeActive), name: NotificationMessages.applicationDidBecomeActive, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.applicationWillTerminate), name: NotificationMessages.applicationWillTerminate, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.notificationActionNextInterval), name: NotificationMessages.notificationActionNextInterval, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(NotificationMessages.handleWatchKitExtensionRequest + ":"), name: NotificationMessages.handleWatchKitExtensionRequest, object: nil)
