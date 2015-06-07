@@ -47,19 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.applicationDidEnterBackground, object: self)
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.applicationWillEnterForeground, object: self)
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationMessages.applicationWillTerminate, object: self)
-    }
-    
+   
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
         if let actionIdentifier = identifier {
             switch actionIdentifier {
@@ -91,19 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nextAction.destructive = false
         nextAction.authenticationRequired = false
         
-        /*
-        // Removed as 'dismiss' seems to be a standard action
-        var abortAction = UIMutableUserNotificationAction()
-        abortAction.identifier = NotificationActions.abortActionIdentifier
-        abortAction.title = "Dismiss"
-        abortAction.activationMode = UIUserNotificationActivationMode.Background
-        abortAction.destructive = true
-        abortAction.authenticationRequired = false
-        */
-
         var intervalNotificationCategory = UIMutableUserNotificationCategory()
         intervalNotificationCategory.identifier = NotificationCategories.intervalNotificationCategoryIdentifier
-        //intervalNotificationCategory.setActions([nextAction, abortAction], forContext: UIUserNotificationActionContext.Default)
         intervalNotificationCategory.setActions([nextAction], forContext: UIUserNotificationActionContext.Default)
 
         var breakNotificationCategory = UIMutableUserNotificationCategory()
